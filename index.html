@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azlan & Khirana - Animasi Lengkap</title>
+    <style>
+        :root {
+            --azlan-color: #4A90E2;
+            --khirana-color: #FF6B8B;
+            --background: #F0F8FF;
+            --platform-color: #8BC34A;
+            --heart-color: #FF5252;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            touch-action: manipulation;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #FF6B8B;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .score-box {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .game-area {
+            background-color: #87CEEB;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            min-height: 300px; /* Tambahkan tinggi minimum */
+        }
+        
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .control-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .azlan-controls {
+            background-color: rgba(74, 144, 226, 0.1);
+        }
+        
+        .khirana-controls {
+            background-color: rgba(255, 107, 139, 0.1);
+        }
+        
+        .player-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .movement-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .control-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .azlan-controls .control-btn {
+            border: 2px solid var(--azlan-color);
+            color: var(--azlan-color);
+        }
+        
+        .khirana-controls .control-btn {
+            border: 2px solid var(--khirana-color);
+            color: var(--khirana-color);
+        }
+        
+        .action-btn {
+            background-color: #FFD166;
+            border: none;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .special-btn {
+            background-color: #FF5252;
+            color: white;
+        }
+        
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .game-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+        }
+        
+        #startBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        #resetBtn {
+            background-color: #FF9800;
+            color: white;
+        }
+        
+        .instructions {
+            background-color: #FFF9C4;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            border-left: 4px solid #FFD600;
+            font-size: 0.8rem;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 5px;
+            color: #5D4037;
+        }
+        
+        .instructions ul {
+            padding-left: 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 10;
+            display: none;
+            width: 80%;
+            max-width: 300px;
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.2rem;
+            color: var(--heart-color);
+            display: none;
+        }
+        
+        /* Responsive adjustments for very small screens */
+        @media (max-width: 350px) {
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .action-buttons {
+                gap: 5px;
+            }
+            
+            .control-btn.action-btn, .control-btn.special-btn {
+                font-size: 0.8rem;
+                padding: 5px;
+            }
+        }
+        
+        /* Landscape orientation adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                flex-direction: row;
+            }
+            
+            .game-area {
+                flex: 2;
+                margin-right: 10px;
+            }
+            
+            .controls {
+                flex: 1;
+            }
+            
+            .instructions {
+                display: none;
+            }
+        }
+        
+        /* Perbaikan untuk layar sangat kecil */
+        @media (max-width: 480px) {
+            .player-controls {
+                flex-direction: column;
+            }
+            
+            .control-group {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Azlan & Khirana</h1>
+        </header>
+        
+        <div class="game-info">
+            <div class="score-box">
+                <div class="player-name">Azlan</div>
+                <div class="score" id="azlanScore">0</div>
+            </div>
+            <div class="score-box">
+                <div class="player-name">Khirana</div>
+                <div class="score" id="khiranaScore">0</div>
+            </div>
+            <div class="score-box">
+                <div class="player-name">Interaksi</div>
+                <div class="score" id="interactionScore">0</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            <div class="hearts" id="hearts">❤️❤️❤️</div>
+            
+            <div class="game-message" id="gameMessage">
+                <h3 id="messageTitle">Selamat!</h3>
+                <p id="messageText"></p>
+                <button class="game-btn" id="closeMessage" style="background-color: #4CAF50; color: white; margin-top: 10px;">Tutup</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="player-controls">
+                <div class="control-group azlan-controls">
+                    <div class="player-name">Azlan</div>
+                    <div class="movement-buttons">
+                        <button class="control-btn" id="azlanLeft">←</button>
+                        <button class="control-btn" id="azlanRight">→</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="control-btn action-btn" id="azlanJump">Lompat</button>
+                        <button class="control-btn action-btn" id="azlanSquat">Nungging</button>
+                        <button class="control-btn special-btn" id="azlanHug">Peluk</button>
+                        <button class="control-btn special-btn" id="azlanKiss">Cium</button>
+                    </div>
+                </div>
+                
+                <div class="control-group khirana-controls">
+                    <div class="player-name">Khirana</div>
+                    <div class="movement-buttons">
+                        <button class="control-btn" id="khiranaLeft">←</button>
+                        <button class="control-btn" id="khiranaRight">→</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="control-btn action-btn" id="khiranaJump">Lompat</button>
+                        <button class="control-btn action-btn" id="khiranaSquat">Nungging</button>
+                        <button class="control-btn special-btn" id="khiranaHug">Peluk</button>
+                        <button class="control-btn special-btn" id="khiranaKiss">Cium</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-buttons">
+                <button class="game-btn" id="startBtn">Mulai</button>
+                <button class="game-btn" id="resetBtn">Reset</button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Cara Bermain:</h3>
+            <ul>
+                <li>Azlan dan Khirana bisa bergerak kiri/kanan dan melompat</li>
+                <li>Kumpulkan hati untuk mendapatkan poin</li>
+                <li>Gunakan aksi khusus: Peluk, Cium, dan Nungging</li>
+                <li>Jika berdekatan, gunakan aksi khusus untuk mendapatkan poin bonus</li>
+                <li>Pemain dengan poin tertinggi menang!</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const azlanScoreElem = document.getElementById('azlanScore');
+        const khiranaScoreElem = document.getElementById('khiranaScore');
+        const interactionScoreElem = document.getElementById('interactionScore');
+        const gameMessage = document.getElementById('gameMessage');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const heartsElem = document.getElementById('hearts');
+        
+        // Set canvas size to match container
+        function resizeCanvas() {
+            const gameArea = canvas.parentElement;
+            canvas.width = gameArea.clientWidth;
+            canvas.height = gameArea.clientHeight;
+            
+            // Perbaiki posisi platform setelah resize
+            if (platforms.length > 0) {
+                platforms[0].width = canvas.width; // Ground platform
+            }
+        }
+        
+        window.addEventListener('load', resizeCanvas);
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Animation frames for characters
+        let animationFrame = 0;
+        
+        // Platform class
+        class Platform {
+            constructor(x, y, width, height) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+            }
+            
+            draw() {
+                ctx.fillStyle = '#8BC34A';
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                
+                // Draw grass on top
+                ctx.fillStyle = '#7CB342';
+                for (let i = 0; i < this.width; i += 10) {
+                    ctx.fillRect(this.x + i, this.y, 2, -Math.random() * 5 - 3);
+                }
+            }
+        }
+        
+        // Heart class (collectible)
+        class Heart {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = 10;
+                this.collected = false;
+                this.floatOffset = Math.random() * Math.PI * 2;
+            }
+            
+            draw() {
+                if (this.collected) return;
+                
+                // Floating animation
+                const floatY = Math.sin(animationFrame * 0.1 + this.floatOffset) * 3;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y + floatY);
+                
+                // Draw heart shape
+                ctx.fillStyle = '#FF5252';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-10, -10, -15, 5, 0, 15);
+                ctx.bezierCurveTo(15, 5, 10, -10, 0, 0);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+            
+            checkCollision(character) {
+                if (this.collected) return false;
+                
+                const dx = this.x - character.x;
+                const dy = (this.y + Math.sin(animationFrame * 0.1 + this.floatOffset) * 3) - character.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                return distance < this.radius + character.width / 2;
+            }
+        }
+        
+        // Character class with enhanced animations
+        class Character {
+            constructor(x, y, width, height, color, name, controls) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.name = name;
+                this.controls = controls;
+                
+                this.speed = 5;
+                this.jumpPower = 15; // Increased jump power
+                this.velocityY = 0;
+                this.isJumping = false;
+                this.isOnGround = false;
+                this.direction = 1; // 1 for right, -1 for left
+                this.isMoving = false;
+                this.score = 0;
+                
+                // Animation states
+                this.state = 'idle'; // idle, walking, jumping, squatting, hugging, kissing
+                this.animationTimer = 0;
+                this.squatProgress = 0;
+                this.hugProgress = 0;
+                this.kissProgress = 0;
+                
+                // Initial positions for reset
+                this.initialX = x;
+                this.initialY = y;
+            }
+            
+            draw() {
+                // Save context state
+                ctx.save();
+                
+                // Flip character if moving left
+                if (this.direction === -1) {
+                    ctx.translate(this.x + this.width/2, 0);
+                    ctx.scale(-1, 1);
+                    ctx.translate(-(this.x + this.width/2), 0);
+                }
+                
+                // Draw based on current state
+                switch(this.state) {
+                    case 'squatting':
+                        this.drawSquatting();
+                        break;
+                    case 'hugging':
+                        this.drawHugging();
+                        break;
+                    case 'kissing':
+                        this.drawKissing();
+                        break;
+                    case 'jumping':
+                        this.drawJumping();
+                        break;
+                    case 'walking':
+                        this.drawWalking();
+                        break;
+                    default:
+                        this.drawIdle();
+                }
+                
+                // Restore context state
+                ctx.restore();
+                
+                // Draw name above character
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.name, this.x, this.y - this.height/2 - 40);
+            }
+            
+            drawIdle() {
+                // Draw body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Draw head
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    // Short hair for Azlan
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                } else {
+                    // Long hair for Khirana
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - neutral expression
+                ctx.fillStyle = '#000';
+                // Eyes
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Mouth - straight line
+                ctx.beginPath();
+                ctx.moveTo(this.x - 5, this.y - this.height/2 - 10);
+                ctx.lineTo(this.x + 5, this.y - this.height/2 - 10);
+                ctx.stroke();
+                
+                // Draw limbs in idle position
+                this.drawLimbs(0, 0);
+            }
+            
+            drawWalking() {
+                // Draw body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Draw head
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                } else {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - slight smile
+                ctx.fillStyle = '#000';
+                // Eyes
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Mouth - slight smile
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 8, 4, 0, Math.PI, false);
+                ctx.stroke();
+                
+                // Draw limbs with walking animation
+                const armSwing = Math.sin(animationFrame * 0.3) * 15;
+                const legSwing = Math.sin(animationFrame * 0.3 + Math.PI) * 15;
+                this.drawLimbs(armSwing, legSwing);
+            }
+            
+            drawJumping() {
+                // Draw body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height - 10); // Squeeze body when jumping
+                
+                // Draw head
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                } else {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - excited expression
+                ctx.fillStyle = '#000';
+                // Eyes - wide open
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18, 4, 0, Math.PI * 2);
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18, 4, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Mouth - open (circle)
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 8, 5, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Draw limbs in jumping position
+                this.drawLimbs(20, -20);
+            }
+            
+            drawSquatting() {
+                const squatAmount = this.squatProgress * 0.5;
+                
+                // Draw body (squashed)
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2 + squatAmount * 10, this.width, this.height - squatAmount * 10);
+                
+                // Draw head
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15 + squatAmount * 5, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    ctx.arc(this.x, this.y - this.height/2 - 15 + squatAmount * 5, 18, 0, Math.PI * 2);
+                } else {
+                    ctx.arc(this.x, this.y - this.height/2 - 15 + squatAmount * 5, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5 + squatAmount * 5, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - determined expression
+                ctx.fillStyle = '#000';
+                // Eyes - squinted
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18 + squatAmount * 5, 2, 0, Math.PI * 2);
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18 + squatAmount * 5, 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Mouth - straight line
+                ctx.beginPath();
+                ctx.moveTo(this.x - 5, this.y - this.height/2 - 10 + squatAmount * 5);
+                ctx.lineTo(this.x + 5, this.y - this.height/2 - 10 + squatAmount * 5);
+                ctx.stroke();
+                
+                // Draw limbs in squatting position
+                this.drawLimbs(0, 30);
+            }
+            
+            drawHugging() {
+                const hugAmount = this.hugProgress * 0.7;
+                
+                // Draw body with arms forward
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Draw head
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                } else {
+                    ctx.arc(this.x, this.y - this.height/2 - 15, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - happy expression
+                ctx.fillStyle = '#000';
+                // Eyes - happy
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Mouth - big smile
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 8, 6, 0, Math.PI, false);
+                ctx.stroke();
+                
+                // Draw hugging arms - PERBAIKAN: Animasi peluk lebih baik
+                ctx.strokeStyle = '#FFE0B2';
+                ctx.lineWidth = 8;
+                ctx.lineCap = 'round';
+                
+                // Arms forward for hugging - lebih natural
+                ctx.beginPath();
+                ctx.moveTo(this.x - this.width/2, this.y - this.height/2 + 10);
+                ctx.quadraticCurveTo(
+                    this.x - this.width/2 - 15 - hugAmount * 15, 
+                    this.y - this.height/2 + 5, 
+                    this.x - this.width/2 - 25 - hugAmount * 10, 
+                    this.y - this.height/2 + 15
+                );
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y - this.height/2 + 10);
+                ctx.quadraticCurveTo(
+                    this.x + this.width/2 + 15 + hugAmount * 15, 
+                    this.y - this.height/2 + 5, 
+                    this.x + this.width/2 + 25 + hugAmount * 10, 
+                    this.y - this.height/2 + 15
+                );
+                ctx.stroke();
+                
+                // Draw legs
+                this.drawLimbs(0, 0);
+                
+                // Draw heart effect when hugging - PERBAIKAN: Efek hati lebih baik
+                if (this.hugProgress > 0.5) {
+                    const heartSize = 15 + hugAmount * 10;
+                    ctx.fillStyle = 'rgba(255, 82, 82, 0.7)';
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y - 10);
+                    ctx.bezierCurveTo(
+                        this.x - heartSize, this.y - 20 - heartSize,
+                        this.x - heartSize*1.5, this.y - 10,
+                        this.x, this.y + 10
+                    );
+                    ctx.bezierCurveTo(
+                        this.x + heartSize*1.5, this.y - 10,
+                        this.x + heartSize, this.y - 20 - heartSize,
+                        this.x, this.y - 10
+                    );
+                    ctx.fill();
+                }
+            }
+            
+            drawKissing() {
+                const kissAmount = this.kissProgress * 0.8;
+                
+                // Draw body leaning forward
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+                
+                // Draw head leaning forward - PERBAIKAN: Animasi mencium lebih baik
+                ctx.fillStyle = '#FFE0B2';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - this.height/2 - 15 - kissAmount * 8, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw hair
+                ctx.fillStyle = this.name === 'Azlan' ? '#3E2723' : '#5D4037';
+                ctx.beginPath();
+                if (this.name === 'Azlan') {
+                    ctx.arc(this.x, this.y - this.height/2 - 15 - kissAmount * 8, 18, 0, Math.PI * 2);
+                } else {
+                    ctx.arc(this.x, this.y - this.height/2 - 15 - kissAmount * 8, 18, 0, Math.PI * 2);
+                    ctx.fillRect(this.x - 18, this.y - this.height/2 + 5 - kissAmount * 8, 36, 25);
+                }
+                ctx.fill();
+                
+                // Draw facial features - kissing expression - PERBAIKAN: Ekspresi lebih baik
+                ctx.fillStyle = '#000';
+                // Eyes - closed dengan garis melengkung
+                ctx.beginPath();
+                ctx.arc(this.x - 8, this.y - this.height/2 - 18 - kissAmount * 8, 2, 0, Math.PI, true);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(this.x + 8, this.y - this.height/2 - 18 - kissAmount * 8, 2, 0, Math.PI, true);
+                ctx.stroke();
+                
+                // Mouth - bibir mencium lebih realistis
+                ctx.fillStyle = '#FF5252';
+                ctx.beginPath();
+                ctx.ellipse(this.x, this.y - this.height/2 - 8 - kissAmount * 8, 5, 3, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw limbs
+                this.drawLimbs(0, 0);
+                
+                // Draw heart effect when kissing - PERBAIKAN: Efek hati lebih baik
+                if (this.kissProgress > 0.3) {
+                    // Hati utama
+                    ctx.fillStyle = 'rgba(255, 82, 82, 0.8)';
+                    this.drawHeart(this.x, this.y - 30 - kissAmount * 10, 15 + kissAmount * 5);
+                    
+                    // Hati-hati kecil yang melayang
+                    for (let i = 0; i < 5; i++) {
+                        const offset = (animationFrame * 0.1 + i * 0.5) % (Math.PI * 2);
+                        const heartX = this.x + Math.cos(offset) * (20 + i * 5);
+                        const heartY = this.y - 50 - Math.sin(offset) * 10 - i * 8;
+                        const size = 3 + i * 0.5;
+                        ctx.fillStyle = `rgba(255, 82, 82, ${0.9 - i * 0.15})`;
+                        this.drawHeart(heartX, heartY, size);
+                    }
+                }
+            }
+            
+            // Helper function to draw heart shape
+            drawHeart(x, y, size) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(x - size, y - size, x - size*1.5, y, x, y + size);
+                ctx.bezierCurveTo(x + size*1.5, y, x + size, y - size, x, y);
+                ctx.fill();
+            }
+            
+            drawLimbs(armSwing, legSwing) {
+                // Draw arms
+                ctx.strokeStyle = '#FFE0B2';
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round';
+                
+                // Left arm
+                ctx.beginPath();
+                ctx.moveTo(this.x - this.width/2, this.y - this.height/2 + 10);
+                ctx.lineTo(this.x - this.width/2 - 15 - armSwing, this.y - this.height/2 + 10);
+                ctx.stroke();
+                
+                // Right arm
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y - this.height/2 + 10);
+                ctx.lineTo(this.x + this.width/2 + 15 + armSwing, this.y - this.height/2 + 10);
+                ctx.stroke();
+                
+                // Draw legs
+                ctx.lineWidth = 8;
+                
+                // Left leg
+                ctx.beginPath();
+                ctx.moveTo(this.x - this.width/4, this.y + this.height/2);
+                ctx.lineTo(this.x - this.width/4 - 10, this.y + this.height/2 + 25 + legSwing);
+                ctx.stroke();
+                
+                // Right leg
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/4, this.y + this.height/2);
+                ctx.lineTo(this.x + this.width/4 + 10, this.y + this.height/2 + 25 - legSwing);
+                ctx.stroke();
+            }
+            
+            update(platforms, hearts, otherCharacter) {
+                // Apply gravity
+                this.velocityY += 0.5;
+                this.y += this.velocityY;
+                
+                // Check platform collisions
+                this.isOnGround = false;
+                for (const platform of platforms) {
+                    if (this.y + this.height/2 > platform.y && 
+                        this.y - this.height/2 < platform.y &&
+                        this.x + this.width/2 > platform.x && 
+                        this.x - this.width/2 < platform.x + platform.width &&
+                        this.velocityY > 0) {
+                        
+                        this.y = platform.y - this.height/2;
+                        this.velocityY = 0;
+                        this.isOnGround = true;
+                        this.isJumping = false;
+                    }
+                }
+                
+                // Check floor collision - PERBAIKAN: Pastikan karakter tidak jatuh melalui lantai
+                if (this.y + this.height/2 > canvas.height - 30) {
+                    this.y = canvas.height - 30 - this.height/2;
+                    this.velocityY = 0;
+                    this.isOnGround = true;
+                    this.isJumping = false;
+                }
+                
+                // Update animation states
+                this.updateAnimationState();
+                
+                // Check heart collisions
+                for (const heart of hearts) {
+                    if (heart.checkCollision(this)) {
+                        heart.collected = true;
+                        this.score += 10;
+                        if (this.name === 'Azlan') {
+                            azlanScoreElem.textContent = this.score;
+                        } else {
+                            khiranaScoreElem.textContent = this.score;
+                        }
+                        
+                        // Show hearts animation
+                        showHeartsAnimation(this.x, this.y);
+                    }
+                }
+                
+                // Check interaction with other character
+                this.checkInteraction(otherCharacter);
+            }
+            
+            updateAnimationState() {
+                // Update animation progress
+                if (this.state === 'squatting') {
+                    this.squatProgress = Math.min(1, this.squatProgress + 0.1);
+                } else {
+                    this.squatProgress = Math.max(0, this.squatProgress - 0.1);
+                }
+                
+                if (this.state === 'hugging') {
+                    this.hugProgress = Math.min(1, this.hugProgress + 0.1);
+                } else {
+                    this.hugProgress = Math.max(0, this.hugProgress - 0.1);
+                }
+                
+                if (this.state === 'kissing') {
+                    this.kissProgress = Math.min(1, this.kissProgress + 0.1);
+                } else {
+                    this.kissProgress = Math.max(0, this.kissProgress - 0.1);
+                }
+                
+                // Auto-return to idle after special animations
+                if (this.state === 'hugging' && this.hugProgress >= 1) {
+                    this.animationTimer++;
+                    if (this.animationTimer > 30) {
+                        this.state = 'idle';
+                        this.animationTimer = 0;
+                    }
+                }
+                
+                if (this.state === 'kissing' && this.kissProgress >= 1) {
+                    this.animationTimer++;
+                    if (this.animationTimer > 40) {
+                        this.state = 'idle';
+                        this.animationTimer = 0;
+                    }
+                }
+                
+                if (this.state === 'squatting' && this.squatProgress >= 1) {
+                    this.animationTimer++;
+                    if (this.animationTimer > 50) {
+                        this.state = 'idle';
+                        this.animationTimer = 0;
+                    }
+                }
+                
+                // Jika sedang melompat dan menyentuh tanah, kembali ke idle
+                if (this.state === 'jumping' && this.isOnGround) {
+                    this.state = 'idle';
+                }
+            }
+            
+            checkInteraction(otherCharacter) {
+                const dx = this.x - otherCharacter.x;
+                const dy = this.y - otherCharacter.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // If characters are close and both are performing the same special action
+                if (distance < 80) {
+                    if (this.state === 'hugging' && otherCharacter.state === 'hugging') {
+                        // Successful hug
+                        interactionScore += 20;
+                        interactionScoreElem.textContent = interactionScore;
+                        
+                        // Show hearts between characters
+                        showHeartsAnimation((this.x + otherCharacter.x) / 2, (this.y + otherCharacter.y) / 2);
+                    }
+                    
+                    if (this.state === 'kissing' && otherCharacter.state === 'kissing') {
+                        // Successful kiss
+                        interactionScore += 30;
+                        interactionScoreElem.textContent = interactionScore;
+                        
+                        // Show special heart effect
+                        showHeartsAnimation((this.x + otherCharacter.x) / 2, (this.y + otherCharacter.y) / 2 - 20);
+                    }
+                }
+            }
+            
+            move(direction) {
+                this.direction = direction;
+                this.isMoving = true;
+                this.state = 'walking';
+                
+                // Move within canvas bounds - PERBAIKAN: Pastikan tidak keluar dari canvas
+                const newX = this.x + (direction * this.speed);
+                const halfWidth = this.width / 2;
+                if (newX - halfWidth > 10 && newX + halfWidth < canvas.width - 10) {
+                    this.x = newX;
+                }
+            }
+            
+            stop() {
+                this.isMoving = false;
+                if (this.state === 'walking' && this.isOnGround) {
+                    this.state = 'idle';
+                }
+            }
+            
+            jump() {
+                if (this.isOnGround && !this.isJumping) {
+                    this.velocityY = -this.jumpPower;
+                    this.isJumping = true;
+                    this.isOnGround = false;
+                    this.state = 'jumping';
+                }
+            }
+            
+            squat() {
+                if (this.isOnGround) {
+                    this.state = 'squatting';
+                    this.squatProgress = 0;
+                    this.animationTimer = 0;
+                }
+            }
+            
+            hug() {
+                this.state = 'hugging';
+                this.hugProgress = 0;
+                this.animationTimer = 0;
+            }
+            
+            kiss() {
+                this.state = 'kissing';
+                this.kissProgress = 0;
+                this.animationTimer = 0;
+            }
+            
+            reset() {
+                this.x = this.initialX;
+                this.y = this.initialY;
+                this.velocityY = 0;
+                this.state = 'idle';
+                this.score = 0;
+                this.squatProgress = 0;
+                this.hugProgress = 0;
+                this.kissProgress = 0;
+                this.animationTimer = 0;
+                this.isJumping = false;
+                this.isOnGround = false;
+                this.isMoving = false;
+            }
+        }
+        
+        // Create platforms
+        let platforms = [];
+        function createPlatforms() {
+            platforms = [
+                new Platform(0, canvas.height - 30, canvas.width, 30), // Ground
+                new Platform(100, canvas.height - 150, 200, 20),
+                new Platform(400, canvas.height - 250, 200, 20),
+                new Platform(150, canvas.height - 350, 150, 20),
+                new Platform(450, canvas.height - 450, 150, 20)
+            ];
+        }
+        
+        // Create hearts
+        let hearts = [];
+        function createHearts() {
+            hearts = [];
+            for (let i = 0; i < 10; i++) {
+                hearts.push(new Heart(
+                    Math.random() * (canvas.width - 40) + 20,
+                    Math.random() * (canvas.height - 200) + 50
+                ));
+            }
+        }
+        
+        // Create characters
+        const azlan = new Character(100, 100, 40, 60, '#4A90E2', 'Azlan', {
+            left: false,
+            right: false,
+            jump: false,
+            squat: false,
+            hug: false,
+            kiss: false
+        });
+        
+        const khirana = new Character(300, 100, 40, 60, '#FF6B8B', 'Khirana', {
+            left: false,
+            right: false,
+            jump: false,
+            squat: false,
+            hug: false,
+            kiss: false
+        });
+        
+        // Game state
+        let gameRunning = false;
+        let gameTime = 120; // 2 minutes game
+        let timerInterval;
+        let interactionScore = 0;
+        
+        // Draw functions
+        function drawBackground() {
+            // Sky gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(1, '#E0F7FA');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw clouds
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            drawCloud(100, 80, 30);
+            drawCloud(300, 120, 40);
+            drawCloud(500, 70, 25);
+        }
+        
+        function drawCloud(x, y, size) {
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.arc(x + size * 0.8, y - size * 0.2, size * 0.7, 0, Math.PI * 2);
+            ctx.arc(x + size * 1.5, y, size * 0.8, 0, Math.PI * 2);
+            ctx.arc(x + size * 0.8, y + size * 0.2, size * 0.7, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        function drawTimer() {
+            const minutes = Math.floor(gameTime / 60);
+            const seconds = gameTime % 60;
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Waktu: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`, canvas.width / 2, 25);
+        }
+        
+        function showHeartsAnimation(x, y) {
+            heartsElem.style.display = 'block';
+            heartsElem.style.left = `${x - 30}px`;
+            heartsElem.style.top = `${y - 30}px`;
+            
+            setTimeout(() => {
+                heartsElem.style.display = 'none';
+            }, 1000);
+        }
+        
+        // Update functions
+        function updateCharacters() {
+            // Update Azlan based on controls - PERBAIKAN: Kontrol lebih responsif
+            if (azlan.controls.left) {
+                azlan.move(-1);
+            } else if (azlan.controls.right) {
+                azlan.move(1);
+            } else if (azlan.isMoving) {
+                azlan.stop();
+            }
+            
+            if (azlan.controls.jump) {
+                azlan.jump();
+                azlan.controls.jump = false;
+            }
+            
+            if (azlan.controls.squat) {
+                azlan.squat();
+                azlan.controls.squat = false;
+            }
+            
+            if (azlan.controls.hug) {
+                azlan.hug();
+                azlan.controls.hug = false;
+            }
+            
+            if (azlan.controls.kiss) {
+                azlan.kiss();
+                azlan.controls.kiss = false;
+            }
+            
+            // Update Khirana based on controls
+            if (khirana.controls.left) {
+                khirana.move(-1);
+            } else if (khirana.controls.right) {
+                khirana.move(1);
+            } else if (khirana.isMoving) {
+                khirana.stop();
+            }
+            
+            if (khirana.controls.jump) {
+                khirana.jump();
+                khirana.controls.jump = false;
+            }
+            
+            if (khirana.controls.squat) {
+                khirana.squat();
+                khirana.controls.squat = false;
+            }
+            
+            if (khirana.controls.hug) {
+                khirana.hug();
+                khirana.controls.hug = false;
+            }
+            
+            if (khirana.controls.kiss) {
+                khirana.kiss();
+                khirana.controls.kiss = false;
+            }
+            
+            // Update characters
+            azlan.update(platforms, hearts, khirana);
+            khirana.update(platforms, hearts, azlan);
+        }
+        
+        function updateTimer() {
+            if (gameTime <= 0) {
+                endGame();
+                return;
+            }
+            gameTime--;
+        }
+        
+        function endGame() {
+            gameRunning = false;
+            clearInterval(timerInterval);
+            
+            // Determine winner
+            let winnerText = '';
+            if (azlan.score > khirana.score) {
+                winnerText = 'Azlan Menang!';
+            } else if (khirana.score > azlan.score) {
+                winnerText = 'Khirana Menang!';
+            } else {
+                winnerText = 'Permainan Seri!';
+            }
+            
+            // Show game over message
+            messageTitle.textContent = 'Permainan Selesai!';
+            messageText.textContent = `${winnerText} Skor Akhir - Azlan: ${azlan.score}, Khirana: ${khirana.score}, Interaksi: ${interactionScore}`;
+            gameMessage.style.display = 'block';
+        }
+        
+        // Game loop
+        function gameLoop() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw game elements
+            drawBackground();
+            drawTimer();
+            
+            // Update animation frame
+            animationFrame++;
+            
+            // Draw platforms
+            platforms.forEach(platform => platform.draw());
+            
+            // Draw hearts
+            hearts.forEach(heart => heart.draw());
+            
+            // Update and draw characters
+            updateCharacters();
+            azlan.draw();
+            khirana.draw();
+            
+            // Continue game loop if running
+            if (gameRunning) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+        
+        // Touch event handlers for mobile controls - PERBAIKAN: Kontrol lebih baik
+        function setupTouchControls() {
+            // Azlan controls
+            document.getElementById('azlanLeft').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.left = true;
+            });
+            
+            document.getElementById('azlanLeft').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                azlan.controls.left = false;
+            });
+            
+            document.getElementById('azlanRight').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.right = true;
+            });
+            
+            document.getElementById('azlanRight').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                azlan.controls.right = false;
+            });
+            
+            document.getElementById('azlanJump').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.jump = true;
+            });
+            
+            document.getElementById('azlanSquat').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.squat = true;
+            });
+            
+            document.getElementById('azlanHug').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.hug = true;
+            });
+            
+            document.getElementById('azlanKiss').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                azlan.controls.kiss = true;
+            });
+            
+            // Khirana controls
+            document.getElementById('khiranaLeft').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.left = true;
+            });
+            
+            document.getElementById('khiranaLeft').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                khirana.controls.left = false;
+            });
+            
+            document.getElementById('khiranaRight').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.right = true;
+            });
+            
+            document.getElementById('khiranaRight').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                khirana.controls.right = false;
+            });
+            
+            document.getElementById('khiranaJump').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.jump = true;
+            });
+            
+            document.getElementById('khiranaSquat').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.squat = true;
+            });
+            
+            document.getElementById('khiranaHug').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.hug = true;
+            });
+            
+            document.getElementById('khiranaKiss').addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                khirana.controls.kiss = true;
+            });
+            
+            // Also add click events for devices that support both
+            const azlanActions = ['Jump', 'Squat', 'Hug', 'Kiss'];
+            azlanActions.forEach(action => {
+                const element = document.getElementById(`azlan${action}`);
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    azlan.controls[action.toLowerCase()] = true;
+                });
+                element.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    // Tidak mengatur ulang ke false untuk action buttons
+                    // karena mereka adalah trigger sekali pakai
+                });
+            });
+            
+            const khiranaActions = ['Jump', 'Squat', 'Hug', 'Kiss'];
+            khiranaActions.forEach(action => {
+                const element = document.getElementById(`khirana${action}`);
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    khirana.controls[action.toLowerCase()] = true;
+                });
+                element.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    // Tidak mengatur ulang ke false untuk action buttons
+                });
+            });
+            
+            // PERBAIKAN: Tambahkan event listener untuk keyboard
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'a':
+                    case 'A':
+                        azlan.controls.left = true;
+                        break;
+                    case 'd':
+                    case 'D':
+                        azlan.controls.right = true;
+                        break;
+                    case 'w':
+                    case 'W':
+                        azlan.controls.jump = true;
+                        break;
+                    case 's':
+                    case 'S':
+                        azlan.controls.squat = true;
+                        break;
+                    case 'e':
+                    case 'E':
+                        azlan.controls.hug = true;
+                        break;
+                    case 'q':
+                    case 'Q':
+                        azlan.controls.kiss = true;
+                        break;
+                    case 'ArrowLeft':
+                        khirana.controls.left = true;
+                        break;
+                    case 'ArrowRight':
+                        khirana.controls.right = true;
+                        break;
+                    case 'ArrowUp':
+                        khirana.controls.jump = true;
+                        break;
+                    case 'ArrowDown':
+                        khirana.controls.squat = true;
+                        break;
+                    case 'u':
+                    case 'U':
+                        khirana.controls.hug = true;
+                        break;
+                    case 'i':
+                    case 'I':
+                        khirana.controls.kiss = true;
+                        break;
+                }
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                switch(e.key) {
+                    case 'a':
+                    case 'A':
+                        azlan.controls.left = false;
+                        break;
+                    case 'd':
+                    case 'D':
+                        azlan.controls.right = false;
+                        break;
+                    case 'ArrowLeft':
+                        khirana.controls.left = false;
+                        break;
+                    case 'ArrowRight':
+                        khirana.controls.right = false;
+                        break;
+                }
+            });
+        }
+        
+        // Button event listeners
+        document.getElementById('startBtn').addEventListener('click', function() {
+            if (!gameRunning) {
+                gameRunning = true;
+                this.textContent = 'Jeda';
+                
+                // Start timer
+                timerInterval = setInterval(updateTimer, 1000);
+                
+                gameLoop();
+            } else {
+                gameRunning = false;
+                clearInterval(timerInterval);
+                this.textContent = 'Lanjutkan';
+            }
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            gameRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').textContent = 'Mulai';
+            
+            // Reset scores
+            azlan.score = 0;
+            khirana.score = 0;
+            interactionScore = 0;
+            azlanScoreElem.textContent = '0';
+            khiranaScoreElem.textContent = '0';
+            interactionScoreElem.textContent = '0';
+            
+            // Reset timer
+            gameTime = 120;
+            
+            // Reset characters
+            azlan.reset();
+            khirana.reset();
+            
+            // Reset hearts and platforms
+            createHearts();
+            createPlatforms();
+            
+            // Hide message
+            gameMessage.style.display = 'none';
+            heartsElem.style.display = 'none';
+            
+            // Redraw once
+            resizeCanvas();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawTimer();
+            platforms.forEach(platform => platform.draw());
+            hearts.forEach(heart => heart.draw());
+            azlan.draw();
+            khirana.draw();
+        });
+        
+        document.getElementById('closeMessage').addEventListener('click', function() {
+            gameMessage.style.display = 'none';
+        });
+        
+        // Initialize the game
+        function initGame() {
+            resizeCanvas();
+            createPlatforms();
+            createHearts();
+            setupTouchControls();
+            drawBackground();
+            drawTimer();
+            platforms.forEach(platform => platform.draw());
+            hearts.forEach(heart => heart.draw());
+            azlan.draw();
+            khirana.draw();
+        }
+        
+        // Panggil init saat halaman dimuat
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
